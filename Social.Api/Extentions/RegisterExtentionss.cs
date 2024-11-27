@@ -1,0 +1,30 @@
+﻿using Social.Api.Registers;
+
+namespace Social.Api.Extentions
+{
+    public static class RegisterExtentionss
+    {
+        public static void RegisterServices(this WebApplicationBuilder builder ,Type scanningType)
+        {
+           var registerTypes = scanningType.Assembly.GetTypes()
+                .Where(x => x.GetInterfaces().Contains(typeof(IWebApplicationBuilderRegister)));
+            foreach (var registerType in registerTypes)
+            {
+                var register = (IWebApplicationBuilderRegister)Activator.CreateInstance(registerType);
+                register.RegisterServices(builder);
+            }
+
+        }
+        public static void RegisterPipelineComponents(this WebApplication app,Type scanningType)
+        {
+            var registerTypes = scanningType.Assembly.GetTypes()
+                .Where(x => x.GetInterfaces().Contains(typeof(IWebApplicationRegister)));
+            foreach (var registerType in registerTypes)
+            {
+                var register = (IWebApplicationRegister)Activator.CreateInstance(registerType);
+                register.RegisterPipelineComponents(app);
+            }
+
+        }
+    }
+}
