@@ -10,8 +10,8 @@ namespace Social.Api.Extentions
                 .Where(x => x.GetInterfaces().Contains(typeof(IWebApplicationBuilderRegister)));
             foreach (var registerType in registerTypes)
             {
-                var register = (IWebApplicationBuilderRegister)Activator.CreateInstance(registerType);
-                register.RegisterServices(builder);
+                var register = Activator.CreateInstance(registerType) as IWebApplicationBuilderRegister;
+                register?.RegisterServices(builder);
             }
 
         }
@@ -21,8 +21,8 @@ namespace Social.Api.Extentions
                 .Where(x => x.GetInterfaces().Contains(typeof(IWebApplicationRegister)));
             foreach (var registerType in registerTypes)
             {
-                var register = (IWebApplicationRegister)Activator.CreateInstance(registerType);
-                register.RegisterPipelineComponents(app);
+                var register = Activator.CreateInstance(registerType) as IWebApplicationRegister;
+                register?.RegisterPipelineComponents(app);
             }
 
         }
