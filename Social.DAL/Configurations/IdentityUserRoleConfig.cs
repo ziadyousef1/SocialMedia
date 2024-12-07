@@ -14,6 +14,7 @@ namespace Social.DAL.Configurations
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
            builder.HasKey(iur=>iur.RoleId);
+
         }
     }
 }
