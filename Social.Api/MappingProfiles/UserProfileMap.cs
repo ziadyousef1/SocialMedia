@@ -11,7 +11,9 @@ namespace Social.Application.MappingProfiles
         public UserProfileMap()
         {
             CreateMap<CreateUserCommand, BasicInfo>();
-            CreateMap<UserProfileCreate, CreateUserCommand>();
+            
+            CreateMap<UserProfileCreateOrUpdate, CreateUserCommand>();
+            CreateMap<UserProfileCreateOrUpdate, UpdateUserProfileBasicInfoCommand>();
             CreateMap<CreateUserCommand, UserProfile>();
             CreateMap<UserProfile, UserProfileResponse>();
             CreateMap<BasicInfo, BasicInformation>();

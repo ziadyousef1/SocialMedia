@@ -14,11 +14,10 @@ namespace Social.Domain.Aggregates.UserProfileAggregate
         }
         public Guid UserProfileId { get; private set; }
         public string IdentityId { get; private set; }
-
         public BasicInfo BasicInfo { get; private set; }
-
         public DateTime DateCreated { get; private set; }
         public DateTime LastDateModified { get; private set; }
+
         public static UserProfile Create(string identityId, BasicInfo basicInfo)
         {
             return new UserProfile

@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Social.Application.Models;
+using Social.Application.Enums;
 
 namespace Social.Application.UserProfiles.QueryHandlers
 {
-    public class GellAllUserProfilesQueryHandler : IRequestHandler<GellAllUserProfilesQuery, IEnumerable<UserProfile>>
+    public class GellAllUserProfilesQueryHandler : IRequestHandler<GellAllUserProfilesQuery, OperationResult<IEnumerable<UserProfile>>>
     {
         private readonly DataContext _dataContext;
 
@@ -19,10 +21,26 @@ namespace Social.Application.UserProfiles.QueryHandlers
         {
             this._dataContext = dataContext;
         }
-        public async Task<IEnumerable<UserProfile>> Handle(GellAllUserProfilesQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<IEnumerable<UserProfile>>> Handle(GellAllUserProfilesQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.UserProfiles.ToListAsync();
-
+            var operationResult = new OperationResult<IEnumerable<UserProfile>>();
+            try
+            {
+                var profiles = await _dataContext.UserProfiles.ToListAsync();
+                operationResult.Payload = profiles;
+            }
+            catch (Exception e)
+            {
+                var error = new Error
+                {
+                    Code = ErrorCode.ServerError,
+                    Message = e.Message
+                };
+                operationResult.IsSuccess = false;
+                operationResult.Errors.Add(error);
+            }
+            
+            return operationResult;
         }
     }
 }

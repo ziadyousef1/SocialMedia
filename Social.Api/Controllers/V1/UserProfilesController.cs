@@ -7,12 +7,14 @@ using Social.Application.UserProfiles.Commands;
 using Social.Application.UserProfiles.Queries;
 using Social.Domain.Aggregates.UserProfileAggregate;
 using System.Text;
+using Social.Application.Common;
+using Social.Application.Enums;
+
 namespace Social.Api.Controllers.V1
 {
-    [ApiVersion("1.0")]
     [Route(ApiRoutes.BaseRoute)]
     [ApiController]
-    public class UserProfilesController:ControllerBase
+    public class UserProfilesController:BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -27,28 +29,53 @@ namespace Social.Api.Controllers.V1
         {
            var query= new GellAllUserProfilesQuery();
             var response = await _mediator.Send(query);
-            var Profiles= _mapper.Map<List<UserProfile>>(response);
-
-            return Ok(Profiles);
+            if (!response.IsSuccess)
+                return HandleErrorResponse(response.Errors);
+            
+            var profiles = _mapper.Map<List<UserProfile>>(response.Payload);
+            return Ok(profiles);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileCreate Profile)
+        public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileCreateOrUpdate Profile)
         {
 
             var command = _mapper.Map<CreateUserCommand>(Profile);
             var response =await _mediator.Send(command);
-            var userProfile= _mapper.Map<UserProfileResponse>(response);
-            return CreatedAtAction(nameof(GetUserProfileById),new {id=response.UserProfileId},userProfile);
+            if (!response.IsSuccess)
+                return HandleErrorResponse(response.Errors);
+            
+            var userProfile= _mapper.Map<UserProfileResponse>(response.Payload);
+            return CreatedAtAction(nameof(GetUserProfileById),new {id=response.Payload.UserProfileId},userProfile);
 
         }
         [HttpGet]
-        [Route("{id}")]
+        [Route(ApiRoutes.UserProfiles.IdRoute)]
         public async Task<IActionResult> GetUserProfileById(string id)
         {
             var query = new GetUserProfileById { UserProfileId= Guid.Parse(id)};
             var response = await _mediator.Send(query);
-            var userProfile = _mapper.Map<UserProfile>(response);
+            if (!response.IsSuccess)
+                return HandleErrorResponse(response.Errors);
+            
+            var userProfile = _mapper.Map<UserProfile>(response.Payload);
             return Ok(userProfile);
+        }
+        [HttpPatch]
+        [Route(ApiRoutes.UserProfiles.IdRoute)]
+        public async Task<IActionResult> UpdateUserProfile(string id, [FromBody] UserProfileCreateOrUpdate userProfileUpdate)
+        {
+            var command = _mapper.Map<UpdateUserProfileBasicInfoCommand>(userProfileUpdate);
+            command.UserProfileId = Guid.Parse(id);
+            var response = await _mediator.Send(command);
+            return !response.IsSuccess ? HandleErrorResponse(response.Errors) : NoContent();
+        }
+        [HttpDelete]
+        [Route(ApiRoutes.UserProfiles.IdRoute)]
+        public async Task<IActionResult> DeleteUserProfile(string id)
+        {
+            var command = new DeleteUserProfileCommand { UserProfileId = Guid.Parse(id) };
+            var response = await _mediator.Send(command);
+            return !response.IsSuccess ? HandleErrorResponse(response.Errors) : NoContent();
         }
     }
 }

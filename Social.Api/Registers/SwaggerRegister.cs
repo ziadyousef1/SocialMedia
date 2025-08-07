@@ -8,7 +8,7 @@ namespace Social.Api.Registers
         public void RegisterServices(WebApplicationBuilder builder)
         {
             builder.Services.AddSwaggerGen();
-            builder.Services.ConfigureOptions<ConfigureSwaggerrOptions>();
+            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
     }
 }

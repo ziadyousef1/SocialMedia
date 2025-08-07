@@ -1,6 +1,6 @@
 ﻿namespace Social.Api.Contracts.UserProfile.Requests
 {
-    public class UserProfileCreate
+    public class UserProfileCreateOrUpdate
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
