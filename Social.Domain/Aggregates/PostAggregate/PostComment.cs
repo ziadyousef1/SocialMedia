@@ -8,16 +8,19 @@ namespace Social.Domain.Aggregates.PostAggregate
 {
     public class PostComment
     {
+        private PostComment() { }
+        
         public Guid PostCommentId { get; private set; }
         public Guid PostId { get; private set; }
         public Guid UserProfileId { get; private set; }
-        public string Text{ get; private set; }
+        public string? Text { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public DateTime LastModifiedDate { get; private set; }
         public static PostComment Create(Guid postId, Guid userProfileId, string text)
         {
             return new PostComment
             {
+                PostCommentId = Guid.NewGuid(),
                 PostId = postId,
                 UserProfileId = userProfileId,
                 Text = text,

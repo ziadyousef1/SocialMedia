@@ -10,11 +10,10 @@ namespace Social.Api.Registers
             builder.Services.AddControllers();
             builder.Services.AddApiVersioning(config =>
             {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
                 config.AssumeDefaultVersionWhenUnspecified = true;
+                config.DefaultApiVersion = new ApiVersion(1, 0);
                 config.ReportApiVersions = true;
-                config.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            });
+                config.ApiVersionReader = new UrlSegmentApiVersionReader();            });
             builder.Services.AddVersionedApiExplorer(config =>
             {
                 config.GroupNameFormat = "'v'VVV";
