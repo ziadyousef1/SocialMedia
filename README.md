@@ -16,16 +16,15 @@ This project follows **Clean Architecture** principles with clear separation of 
 
 ####  **Application Layer** (`Social.Application`)
 - Business logic and use cases
-- Commands and Queries (CQRS)
+- Commands and Queries
 - Command and Query Handlers
 - Application services
 - Validation rules
 
 ####  **Domain Layer** (`Social.Domain`)
-- Core business entities
 - Domain models and aggregates
-- Business rules and invariants
-- Domain events
+- Business rules 
+
 
 ####  **Infrastructure Layer** (`Social.DAL`)
 - Database context and configurations
@@ -33,6 +32,12 @@ This project follows **Clean Architecture** principles with clear separation of 
 - Data access implementations
 - External service integrations
 
+##  API Documentation
+
+The API is fully documented with Swagger/OpenAPI. Here's a preview of the available endpoints:
+
+![API Documentation](./Images/image.png)
+![API Documentation](./Images/image%20copy.png)
 
 
 
@@ -82,7 +87,6 @@ This project follows **Clean Architecture** principles with clear separation of 
         └── UserProfileConfig.cs
 ```
 
-
 ##  Features
 
 ###  User Management
@@ -99,8 +103,6 @@ This project follows **Clean Architecture** principles with clear separation of 
 ###  Comments System
 - Add comments to posts
 - Edit and delete comments
-- Nested comment support
-- Real-time comment updates
 
 ###  Interactions & Reactions
 - Like, Love, Haha, Wow, Sad, Angry reactions
