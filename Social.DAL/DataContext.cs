@@ -15,11 +15,13 @@ namespace Social.DAL
         }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<PostComment> PostComments { get; set; }
+        public DbSet<PostInteraction> PostInteractions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
            builder.ApplyConfiguration(new PostCommentConfig());
-            builder.ApplyConfiguration(new PostInteractionConfig());
+           builder.ApplyConfiguration(new PostInteractionConfig());
            builder.ApplyConfiguration(new UserProfileConfig());
            builder.ApplyConfiguration(new IdentityUserLoginConfig());
            builder.ApplyConfiguration(new IdentityUserRoleConfig());

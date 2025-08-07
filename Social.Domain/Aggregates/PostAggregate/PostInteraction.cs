@@ -21,11 +21,18 @@ namespace Social.Domain.Aggregates.PostAggregate
         {
             return new PostInteraction
             {
+                PostInteractionId = Guid.NewGuid(),
                 PostId = postId,
                 UserProfileId = userProfileId,
                 InteractionType = interactionType,
                 InteractionDate = DateTime.Now
             };
+        }
+
+        public void UpdateInteraction(InteractionType newInteractionType)
+        {
+            InteractionType = newInteractionType;
+            InteractionDate = DateTime.Now;
         }
     }
 }
