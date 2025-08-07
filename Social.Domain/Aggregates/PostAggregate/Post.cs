@@ -19,17 +19,22 @@ namespace Social.Domain.Aggregates.PostAggregate
         public Guid UserProfileID { get; private set; }
         public UserProfile UserProfile { get; private set; }
         public string TextContent { get; private set; }
+        public string? PhotoUrl { get; private set; }
+        public string? PhotoFileName { get; private set; }
 
         public DateTime CreatedDate { get; private set; }
         public DateTime LastModifiedDate { get; private set; }
         public List<PostComment> Comments { get; private set; }
         public List<PostInteraction> Interactions { get; private set; }
-        public static Post Create(Guid userProfileId, string textContent)
+        public static Post Create(Guid userProfileId, string textContent, string? photoUrl = null, string? photoFileName = null)
         {
             return new Post
             {
+                PostId = Guid.NewGuid(),
                 UserProfileID = userProfileId,
                 TextContent = textContent,
+                PhotoUrl = photoUrl,
+                PhotoFileName = photoFileName,
                 CreatedDate = DateTime.Now,
                 LastModifiedDate = DateTime.Now
             };
@@ -37,6 +42,20 @@ namespace Social.Domain.Aggregates.PostAggregate
         public void UpdateTextContent(string newText)
         {
             TextContent = newText;
+            LastModifiedDate = DateTime.Now;
+        }
+        
+        public void UpdatePhoto(string? photoUrl, string? photoFileName)
+        {
+            PhotoUrl = photoUrl;
+            PhotoFileName = photoFileName;
+            LastModifiedDate = DateTime.Now;
+        }
+        
+        public void RemovePhoto()
+        {
+            PhotoUrl = null;
+            PhotoFileName = null;
             LastModifiedDate = DateTime.Now;
         }
         public void AddComment(PostComment comment)

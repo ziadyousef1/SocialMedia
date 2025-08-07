@@ -1,0 +1,11 @@
+using MediatR;
+using Social.Application.Models;
+using PostEntity = Social.Domain.Aggregates.PostAggregate.Post;
+
+namespace Social.Application.Posts.Queries
+{
+    public class GetPostByIdQuery : IRequest<OperationResult<PostEntity>>
+    {
+        public required Guid PostId { get; set; }
+    }
+}
