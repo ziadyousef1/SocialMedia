@@ -6,7 +6,7 @@ namespace Social.Api.Extentions
     {
         public static void RegisterServices(this WebApplicationBuilder builder ,Type scanningType)
         {
-           var registerTypes = scanningType.Assembly.GetTypes()
+            var registerTypes = scanningType.Assembly.GetTypes()
                 .Where(x => x.GetInterfaces().Contains(typeof(IWebApplicationBuilderRegister)));
             foreach (var registerType in registerTypes)
             {

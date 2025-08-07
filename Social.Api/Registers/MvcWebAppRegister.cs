@@ -18,7 +18,7 @@ namespace Social.Api.Registers
                 }
 
             });
-            app.UseHttpsRedirection();
+          //  app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

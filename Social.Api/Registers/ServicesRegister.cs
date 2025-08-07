@@ -9,6 +9,7 @@ namespace Social.Api.Registers
         public void RegisterServices(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IFileUploadService, LocalFileUploadService>();
+            builder.Services.AddScoped<IdentityService>();
         }
     }
 }
